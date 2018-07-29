@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+		<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+	<img src="" id="profile_pic" width="150px" height="150px" style="border-radius: 50%">
+                 <input type="hidden" id="eid" class="form-control" placeholder="EID" value="CS085" readonly>
+
+    <input type="file" name="files[]" id="file" required/>
+    <br>
+     <button type="button" id="upload_profile_pic" class="btn btn-primary ">Update Pic</button>
+
+
+
+  <script type="text/javascript">
+  	$(document).ready(function(){
+  	
+  		          $('#file').on('change', function () {
+                    var file_data = $('#file').prop('files')[0];
+                    var form_data = new FormData();
+                    form_data.append('file', file_data);
+                    $.ajax({
+                        url: 'upload.php', // point to server-side PHP script 
+                        dataType: 'text', // what to expect back from the PHP script
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        data: form_data,
+                        type: 'post',
+                        success: function (response) {
+                        
+                            alert(response)
+                            document.getElementById("profile_pic").src=response;
+                            x=response;
+
+                           
+                        },
+                        error: function (response) {
+                          
+                           alert(response);
+                        }
+                    });
+               });
+  	$('#upload_profile_pic').on('click', function () {
+
+               
+                  var eid=$("#eid").val();
+                  var profile=x;
+                   
+                        $.ajax({
+                            url:"update_profile_pic.php",
+                            type:"post",
+                            data:{
+                               	
+                                "profile":profile
+                            },
+                            success:function(data){
+                              alert(data);
+                             // window.reload();   
+                              },
+                              error:function(){
+                              	alert(';hi');
+                              }
+                });
+           
+      });
+           })  
+  </script>
+</body>
+</html>

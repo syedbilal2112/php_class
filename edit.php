@@ -29,14 +29,10 @@
 	
 	?>
 		<form>
-			<input type="hidden" name="id" value="<?php echo 
-	$id?>" id="id">
-	<label>Enter Name</label><input  class="form-control" type="text" id="name" name="name" value="<?php echo 
-	$name?>"><br>
-	<label>Enter Name</label><input  class="form-control" type="email" id="email" name="email"  value="<?php echo 
-	$email?>"><br>
-	<label>Enter Name</label><input  class="form-control" type="password" id="password"  value="<?php echo 
-	$password?>" name="password"><br>
+			<input type="hidden" name="id" value="<?php echo $id?>" id="id">
+	<label>Enter Name</label><input  class="form-control" type="text" id="name" name="name" value="<?php echo $name?>"><br>
+	<label>Enter Name</label><input  class="form-control" type="email" id="email" name="email"  value="<?php echo $email?>"><br>
+	<label>Enter Name</label><input  class="form-control" type="password" id="password"  value="<?php echo $password?>" name="password"><br>
 	<button type="button" id="btn">Submit</button>
 </form>
 

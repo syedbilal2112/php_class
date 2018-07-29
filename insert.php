@@ -4,15 +4,14 @@
 	include 'conn.php';
 	$name = $_POST['name'];
 	$email = $_POST['email'];
-	$password = $_POST['password'];
-
+	$password =$_POST['password'];
+$password =password_hash($password, PASSWORD_BCRYPT);
 
 	
-	$query="INSERT INTO `first_table`(`Name`,`Email`, `Password`) VALUES ('$name','$email','$password')";
-	echo $query;
+	$query="INSERT INTO `users`(`name`,`email`, `password`) VALUES ('$name','$email','$password')";
 	$result=mysqli_query($con,$query);
 	if ($result) {
-		echo "Successfully Added ";
+		header("location: test.html");
 	}
 	else{
 		echo "Error";

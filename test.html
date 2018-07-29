@@ -14,6 +14,12 @@
 
 </head>
 <body>
+		<form>
+	<label>Enter Name</label><input  class="form-control" type="text" id="name" name="name"><br>
+	<label>Enter Name</label><input  class="form-control" type="email" id="email" name="email"><br>
+	<label>Enter Name</label><input  class="form-control" type="password" id="password" name="password"><br>
+	<button type="button" id="btn">Submit</button>
+</form>
 <button>Click me</button>
 
 <table class="table" id="history_display">
@@ -54,6 +60,30 @@
   
 </div>
 <script type="text/javascript">
+	$(function(){
+		$('#btn').click(function(){
+
+			var a=document.getElementById('name').value;
+			var b=document.getElementById('email').value;
+			var c=document.getElementById('password').value;
+			alert(a+b+c)
+			$.ajax({
+				url:'insert.php',
+				type:'post',
+				data:{
+					"name":a,
+					"email":b,
+					"password":c
+				},
+				success:function(){
+					alert('row added successfully')
+				},
+				error:function(){
+					alert('something went wrong')
+				}
+			})
+		})
+	})
 	function model(id){
 		
 		$.ajax({
@@ -116,7 +146,7 @@
                             table_content+="<td>"+value.id+"</td>";
                             table_content+="<td>"+value.name+"</td>";
                             table_content+="<td>"+value.email+"</td>";
-                            table_content+="<td>"+value.Password+"</td>";
+                            table_content+="<td>"+value.password+"</td>";
   table_content+="<td><a class='btn btn-primary' href='edit.php?id="+value.id+"'>Edit</a><button class='btn btn-danger' onclick='delet("+value.id+")'>Delete</button><button type='button' class='btn btn-info' onclick='model("+value.id+")' >View</button></td>";
                             table_content+="</tr>";
                         });
