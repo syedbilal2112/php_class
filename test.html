@@ -20,8 +20,9 @@
 	<label>Enter Name</label><input  class="form-control" type="password" id="password" name="password"><br>
 	<button type="button" id="btn">Submit</button>
 </form>
-<button>Click me</button>
-
+<button id="button">Click me</button>
+<input type="text" name="search" id="search" placeholder="Enter Name to search">
+<button id="searchbtn">Search</button>
 <table class="table" id="history_display">
     <thead>
      <th>ID</th>
@@ -46,9 +47,9 @@
           <h4 class="modal-title">Details</h4>
         </div>
         <div class="modal-body">
-          <label> Name</label><input  class="form-control" disabled type="text" id="name" name="name"><br>
-	<label> Email</label><input  class="form-control" disabled type="email" id="email" name="email"><br>
-	<label> Password</label><input  class="form-control" disabled type="password" id="password" name="password"><br>
+          <label> Name</label><input  class="form-control" disabled type="text" id="name1" name="name"><br>
+	<label> Email</label><input  class="form-control" disabled type="email" id="email1" name="email"><br>
+	<label> Password</label><input  class="form-control" disabled type="password" id="password1" name="password"><br>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -61,6 +62,39 @@
 </div>
 <script type="text/javascript">
 	$(function(){
+		$('#searchbtn').click(function(){
+			var a=document.getElementById('search').value;
+			alert(a);
+			$.ajax({
+				url:'search.php',
+				type:'post',
+				data:{
+					"name":a
+				},
+				success:function(response){
+					
+					var obj=JSON.parse(response);
+					
+                        var table_content=""
+                        $('#history_display').find( 'tr:not(:first)' ).remove();
+                        $.each(obj,function(index,value){
+                        	alert(value.id)
+                            table_content+="<tr>";
+                            table_content+="<td>"+value.id+"</td>";
+                            table_content+="<td>"+value.Name+"</td>";
+                            table_content+="<td>"+value.Email+"</td>";
+                            table_content+="<td>"+value.Password+"</td>";
+  table_content+="<td><a class='btn btn-primary' href='edit.php?id="+value.id+"'>Edit</a><button class='btn btn-danger' onclick='delet("+value.id+")'>Delete</button><button type='button' class='btn btn-info' onclick='model("+value.id+")' >View</button></td>";
+                            table_content+="</tr>";
+                        });
+                        $("#history_display").append(table_content);
+				},
+				error:function(){
+					alert('something went wrong')
+				}
+			})
+		})
+
 		$('#btn').click(function(){
 
 			var a=document.getElementById('name').value;
@@ -128,7 +162,7 @@
 			})
 	}
 	$(function(){
-		$('button').click(function(){
+		$('#button').click(function(){
 			$.ajax({
 				url:'index.php',
 				type:'get',
@@ -144,9 +178,9 @@
                         $.each(obj,function(index,value){
                             table_content+="<tr>";
                             table_content+="<td>"+value.id+"</td>";
-                            table_content+="<td>"+value.name+"</td>";
-                            table_content+="<td>"+value.email+"</td>";
-                            table_content+="<td>"+value.password+"</td>";
+                            table_content+="<td>"+value.Name+"</td>";
+                            table_content+="<td>"+value.Email+"</td>";
+                            table_content+="<td>"+value.Password+"</td>";
   table_content+="<td><a class='btn btn-primary' href='edit.php?id="+value.id+"'>Edit</a><button class='btn btn-danger' onclick='delet("+value.id+")'>Delete</button><button type='button' class='btn btn-info' onclick='model("+value.id+")' >View</button></td>";
                             table_content+="</tr>";
                         });

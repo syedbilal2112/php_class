@@ -8,7 +8,7 @@
 $password =password_hash($password, PASSWORD_BCRYPT);
 
 	
-	$query="INSERT INTO `users`(`name`,`email`, `password`) VALUES ('$name','$email','$password')";
+	$query="INSERT INTO `users`(`name`,`email`,`password`) VALUES ('$name','$email','$password')";
 	$result=mysqli_query($con,$query);
 	if ($result) {
 		header("location: test.html");

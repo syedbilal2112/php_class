@@ -17,14 +17,14 @@
 		
 		include 'conn.php';
 
-	$query="SELECT * FROM `first_table` where id='$id'";
+	$query="SELECT * FROM `users` where id='$id'";
 	$result=mysqli_query($con,$query);
 	$json_data=array();
 	while($row=mysqli_fetch_assoc($result)){
 		$name=$row['name'];
 		$email=$row['email'];
 		$password=$row['password'];
-
+		$profile_pic=$row['profile'];
 	}
 	
 	?>
@@ -35,9 +35,68 @@
 	<label>Enter Name</label><input  class="form-control" type="password" id="password"  value="<?php echo $password?>" name="password"><br>
 	<button type="button" id="btn">Submit</button>
 </form>
+	<img src="<?php echo $profile_pic?>" id="profile_pic" width="150px" height="150px" style="border-radius: 50%">
+         <input type="hidden" id="eid" class="form-control" placeholder="EID" value="<?php echo $id?>" readonly>
 
+    <input type="file" name="files[]" id="file" accept=".jpg" required/>
+    <br>
+     <button type="button" id="upload_profile_pic" class="btn btn-primary ">Update Pic</button>
 <script type="text/javascript">
+
 	$(function(){
+
+
+
+
+		  		     $('#file').on('change', function () {
+                    var file_data = $('#file').prop('files')[0];
+                    var form_data = new FormData();
+                    form_data.append('file', file_data);
+                    $.ajax({
+                        url: 'upload.php', // point to server-side PHP script 
+                        dataType: 'text', // what to expect back from the PHP script
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        data: form_data,
+                        type: 'post',
+                        success: function (response) {
+                        
+                            alert(response)
+                            document.getElementById("profile_pic").src=response;
+                            x=response;
+
+                           
+                        },
+                        error: function (response) {
+                          
+                           alert(response);
+                        }
+                    });
+               });
+  	$('#upload_profile_pic').on('click', function () {
+
+               
+                  var eid=$("#eid").val();
+                  var profile=x;
+                   
+                        $.ajax({
+                            url:"update_profile_pic.php",
+                            type:"post",
+                            data:{
+                               	"id":eid,
+                                "profile":profile
+                            },
+                            success:function(data){
+                              alert(data);
+                             // window.reload();   
+                              },
+                              error:function(){
+                              	alert(';hi');
+                              }
+                });
+           
+      });
 		$('#btn').click(function(){
 			var name=document.getElementById('name').value;
                 var id=document.getElementById('id').value;
