@@ -14,6 +14,19 @@
 
 </head>
 <body>
+	<?php $a=$_GET['email'];
+	session_start();
+	echo $a;
+	echo $_SESSION[$a];
+		if(!isset($_SESSION[$a])) { // if already login
+		   header("location: login.php"); // send to home page
+		   exit; 
+		}
+	?>
+
+	<form action="logout.php" method="post">
+	<button type="submit">LogOut</button>
+</form>
 		<form>
 	<label>Enter Name</label><input  class="form-control" type="text" id="name" name="name"><br>
 	<label>Enter Name</label><input  class="form-control" type="email" id="email" name="email"><br>
@@ -62,9 +75,23 @@
 </div>
 <script type="text/javascript">
 	$(function(){
+		$('#logout').click(function(){
+			$.ajax({
+				url:'logout.php',
+				type:'post',
+				data:{
+				},
+				success:function(){
+					alert('LogOut successfull')
+				},
+				error:function(){
+					alert('something went wrong')
+				}
+			})
+		})
 		$('#searchbtn').click(function(){
 			var a=document.getElementById('search').value;
-			alert(a);
+			
 			$.ajax({
 				url:'search.php',
 				type:'post',
